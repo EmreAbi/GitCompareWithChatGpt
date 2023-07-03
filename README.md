@@ -1,4 +1,4 @@
-# Simple Repository File Comparison Tool
+# Simple Repository File Comparison Gist
 
 ## Description
 
