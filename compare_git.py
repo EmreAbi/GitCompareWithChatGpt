@@ -135,9 +135,9 @@ differences, checkout_dir1, checkout_dir2 = compare_branch_files(branch1, branch
 
 
 def save_files_to_disk(file1, file2, content1, content2):
-    with open(f"test_{os.path.basename(file1)}_debug.txt", 'w') as f1_debug:
+    with open(f"{branch1}_{os.path.basename(file1)}_debug.txt", 'w') as f1_debug:
         f1_debug.write(content1)
-    with open(f"staging_{os.path.basename(file2)}_debug.txt", 'w') as f2_debug:
+    with open(f"{branch2}_{os.path.basename(file2)}_debug.txt", 'w') as f2_debug:
         f2_debug.write(content2)
 
 def save_ai_response(file1, file2, response):
