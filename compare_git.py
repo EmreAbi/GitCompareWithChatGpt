@@ -8,7 +8,8 @@ import subprocess
 from git import Repo
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
- 
+gpt_model = "gpt-3.5-turbo-16k"
+ignore_file_suffix_list = ['spec.ts']
 # Create a repo object
 repo_path = "<ROOT OF YOUR REPOS PATH>"
 
@@ -50,13 +51,12 @@ def compare_files(file1, file2):
         return None
 
 def compare_directories(dir1, dir2):
-    ignore_list = ['spec.ts']
     differences = []
 
     dcmp = filecmp.dircmp(dir1, dir2)
 
     for name in dcmp.common_files:
-        if any(name.endswith(ignore) for ignore in ignore_list):
+        if any(name.endswith(ignore) for ignore in ignore_file_suffix_list):
             continue
 
         file1 = os.path.join(dir1, name)
@@ -165,13 +165,13 @@ def create_prompt(file1, file2, base1, base2):
 
 def print_diff(file1, file2, base1, base2):
     prompt = create_prompt(file1, file2, base1, base2)
-    summary = generate_text(prompt)
+    summary = ask_gpt(prompt)
     save_ai_response(file1, file2, summary)
     print(summary)
 
-def generate_text(prompt):
+def ask_gpt(prompt):
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k-0613",
+        model= gpt_model,
         messages=[
             {"role": "system", "content": "I am a full-stack code reviewer and code analyst."},
             {"role": "user", "content": prompt}
@@ -180,7 +180,7 @@ def generate_text(prompt):
         max_tokens=10000
     )
     print("Total Used Token:",response['usage'].total_tokens)
-
+    
     choices = response['choices']
     if choices and len(choices) > 0:
         return choices[0]['message']['content']
