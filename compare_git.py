@@ -126,6 +126,7 @@ questions = [
                   choices=branches,
                  ),
 ]
+
 answers = inquirer.prompt(questions)
 branch1 = answers['branch1']
 branch2 = answers['branch2']
@@ -221,7 +222,7 @@ if differences:
                 answers = inquirer.prompt(questions)
                 selected = answers['file']
                 for file1, file2 in differences:
-                    if f"TEST: {os.path.basename(file1)} vs STAGING: {os.path.basename(file2)}" == selected:
+                    if f"{branch1}: {os.path.basename(file1)} vs {branch2}: {os.path.basename(file2)}" == selected:
                         compare_files_w_beyondcompare(file1, file2)
                         break
         else:  # ChatGPT
@@ -234,7 +235,7 @@ if differences:
                 answers = inquirer.prompt(questions)
                 selected = answers['file']
                 for file1, file2 in differences:
-                    if f"TEST: {os.path.basename(file1)} vs STAGING: {os.path.basename(file2)}" == selected:
+                    if f"{branch1}: {os.path.basename(file1)} vs {branch2}: {os.path.basename(file2)}" == selected:
                         print_diff(file1, file2, checkout_dir1, checkout_dir2)
                         break
 else:
