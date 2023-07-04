@@ -1,4 +1,4 @@
-# Simple Repository File Comparison Gist
+# Simple Repository File/Folder Comparison Gist
 
 ## Description
 
